@@ -11,9 +11,6 @@ let currentPlayer = player2;
 //this is where the board concerns are//////////////////////////////////////////////
 
 let theBoard = ["", "", "", "", "", "", "", "", ""];
-// let row1 = theBoard[0];
-// let row2 = theBoard[1];
-// let row3 = theBoard[2];
 const winnerCheck = () => {
   if (
     //check rows horizontally
@@ -69,6 +66,7 @@ const ticTacToe = async reset => {
   let emptySpaces = 9;
   //to check for a winner
   if (winnerCheck(theBoard)) {
+    currentPlayer.score++;
     alert(`${currentPlayer.name} is the winner`);
     return;
   } else {
@@ -95,20 +93,16 @@ const ticTacToe = async reset => {
 
 //to reset the board.
 const reset = document.getElementsByClassName("button")[0];
-console.log(reset);
 reset.addEventListener("click", () => {
   resetBoard();
-  // ticTacToe();
 });
 const resetBoard = () => {
   theBoard.forEach((space, i) => {
     theBoard[i] = "";
     //reset the innerHTML for each node.
     boxes[i].innerHTML = "";
-    // console.log(boxes[i]);
   });
   alert("new game!");
   ticTacToe("reset");
 };
-
 ticTacToe();

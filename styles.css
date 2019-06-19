@@ -30,6 +30,9 @@ body {
 }
 
 .square {
+  font-size: 10rem;
+  text-align: center;
+  /* display: inline-block; */
   height: 33.3333333%;
   width: 33.33333333%;
   border: 3px solid black;
