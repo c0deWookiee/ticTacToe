@@ -10,37 +10,37 @@ let currentPlayer = player2;
 
 //this is where the board concerns are//////////////////////////////////////////////
 
-let theBoard = [["", "", ""], ["", "", ""], ["", "", ""]];
-let row1 = theBoard[0];
-let row2 = theBoard[1];
-let row3 = theBoard[2];
+let theBoard = ["", "", "", "", "", "", "", "", ""];
+// let row1 = theBoard[0];
+// let row2 = theBoard[1];
+// let row3 = theBoard[2];
 const winnerCheck = () => {
   if (
     //check rows horizontally
-    (row1[0] === "X" && row1[1] === "X" && row1[2] === "X") ||
-    (row1[0] === "O" && row1[1] === "O" && row1[2] === "O") ||
-    ((row2[0] === "X" && row2[1] === "X" && row2[2] === "X") ||
-      (row2[0] === "O" && row2[1] === "O" && row2[2] === "O")) ||
-    ((row3[0] === "X" && row3[1] === "X" && row3[2] === "X") ||
-      (row3[0] === "O" && row3[1] === "O" && row3[2] === "O"))
+    (theBoard[0] === "X" && theBoard[1] === "X" && theBoard[2] === "X") ||
+    (theBoard[0] === "O" && theBoard[1] === "O" && theBoard[2] === "O") ||
+    ((theBoard[3] === "X" && theBoard[4] === "X" && theBoard[5] === "X") ||
+      (theBoard[3] === "O" && theBoard[4] === "O" && theBoard[5] === "O")) ||
+    ((theBoard[6] === "X" && theBoard[7] === "X" && theBoard[8] === "X") ||
+      (theBoard[6] === "O" && theBoard[7] === "O" && theBoard[8] === "O"))
   ) {
     return true;
   } else if (
     //check rows vertically
-    (row1[0] === "X" && row2[0] === "X" && row3[0] === "X") ||
-    (row1[0] === "O" && row2[0] === "O" && row3[0] === "O") ||
-    ((row1[1] === "X" && row2[1] === "X" && row3[1] === "X") ||
-      (row1[1] === "O" && row2[1] === "O" && row3[1] === "O")) ||
-    ((row1[2] === "X" && row2[2] === "X" && row3[2] === "X") ||
-      (row1[2] === "O" && row2[2] === "O" && row3[2] === "O"))
+    (theBoard[0] === "X" && theBoard[3] === "X" && theBoard[6] === "X") ||
+    (theBoard[0] === "O" && theBoard[3] === "O" && theBoard[6] === "O") ||
+    ((theBoard[1] === "X" && theBoard[4] === "X" && theBoard[7] === "X") ||
+      (theBoard[1] === "O" && theBoard[4] === "O" && theBoard[7] === "O")) ||
+    ((theBoard[2] === "X" && theBoard[5] === "X" && theBoard[8] === "X") ||
+      (theBoard[2] === "O" && theBoard[5] === "O" && theBoard[8] === "O"))
   ) {
     return true;
   } else if (
     //check diagonals
-    (row1[0] === "X" && row2[1] === "X" && row3[3] === "X") ||
-    (row1[0] === "O" && row2[1] === "O" && row3[3] === "O") ||
-    ((row1[2] === "X" && row2[1] === "X" && row3[0] === "X") ||
-      (row1[2] === "O" && row2[1] === "O" && row3[0] === "O"))
+    (theBoard[0] === "X" && theBoard[4] === "X" && theBoard[8] === "X") ||
+    (theBoard[0] === "O" && theBoard[4] === "O" && theBoard[8] === "O") ||
+    ((theBoard[2] === "X" && theBoard[4] === "X" && theBoard[6] === "X") ||
+      (theBoard[2] === "O" && theBoard[4] === "O" && theBoard[6] === "O"))
   ) {
     return true;
   }
@@ -50,38 +50,13 @@ const boxes = document.getElementsByClassName("square");
 const markTheBoard = () => {
   for (let box of boxes) {
     box.addEventListener("click", () => {
-      //if id is smaller than 3 use row 1
-      if (box.id < 3) {
-        console.log(row1);
-        row1[box.id] === ""
-          ? ((row1[box.id] = currentPlayer.mark),
-            (box.innerHTML = currentPlayer.mark),
-            ticTacToe())
-          : alert("spot is taken");
-        console.log(theBoard);
+      if (theBoard[box.id] === "") {
+        theBoard[box.id] = currentPlayer.mark;
+        box.innerHTML = currentPlayer.mark;
+        ticTacToe();
+      } else {
+        alert("this spot is taken");
       }
-      //if id is larger than 2 and smaller than 6 use row 2
-      else if (box.id > 2 && box.id < 6) {
-        //subtract 3 to allow for the respective slots in row 2
-
-        row2[box.id - 3] === ""
-          ? ((row2[box.id - 3] = currentPlayer.mark), ticTacToe())
-          : alert("spot is taken");
-        console.log(theBoard);
-      }
-
-      //if id is larger than 5 use row 3
-      else if (box.id > 5) {
-        //subtract 3 ro allow for the respetive slots in row 3
-
-        // row3[box.id - 6] = currentPlayer.mark;
-        row3[box.id - 6] === ""
-          ? ((row3[box.id - 6] = currentPlayer.mark), ticTacToe())
-          : alert("spot is taken");
-        console.log(theBoard);
-      }
-
-      // ticTacToe();
     });
   }
 };
@@ -98,10 +73,8 @@ const ticTacToe = async reset => {
     return;
   } else {
     //to check for a tie
-    for (let row of theBoard) {
-      for (let box of row) {
-        if (box !== "") emptySpaces--;
-      }
+    for (let space of theBoard) {
+      if (space !== "") emptySpaces--;
     }
 
     if (emptySpaces === 0) {
@@ -128,12 +101,11 @@ reset.addEventListener("click", () => {
   // ticTacToe();
 });
 const resetBoard = () => {
-  theBoard.forEach(row => {
-    row.forEach((col, i) => {
-      row[i] = "";
-      //reset the innerHTML for each node.
-      boxes[i].innerHTML = "";
-    });
+  theBoard.forEach((space, i) => {
+    theBoard[i] = "";
+    //reset the innerHTML for each node.
+    boxes[i].innerHTML = "";
+    // console.log(boxes[i]);
   });
   alert("new game!");
   ticTacToe("reset");
